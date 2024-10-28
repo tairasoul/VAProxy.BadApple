@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <RootNamespace>bad-apple</RootNamespace>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>12</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>../../../.local/share/Steam/steamapps/common/VA Proxy Demo/VA-Proxy_Data\Managed\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>../../../.local/share/Steam/steamapps/common/VA Proxy Demo/VA-Proxy_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="BepInEx">
+      <HintPath>../../../.local/share/Steam/steamapps/common/VA Proxy Demo\BepInEx\core\BepInEx.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine">
+      <HintPath>../../../.local/share/Steam/steamapps/common/VA Proxy Demo/VA-Proxy_Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AssetBundleModule">
+      <HintPath>../../../.local/share/Steam/steamapps/common/VA Proxy Demo/VA-Proxy_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TerrainModule">
+      <HintPath>../../../.local/share/Steam/steamapps/common/VA Proxy Demo/VA-Proxy_Data\Managed\UnityEngine.TerrainModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AnimationModule">
+      <HintPath>../../../.local/share/Steam/steamapps/common/VA Proxy Demo/VA-Proxy_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>../../../.local/share/Steam/steamapps/common/VA Proxy Demo/VA-Proxy_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ClothModule">
+      <HintPath>../../../.local/share/Steam/steamapps/common/VA Proxy Demo/VA-Proxy_Data\Managed\UnityEngine.ClothModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>../../../.local/share/Steam/steamapps/common/VA Proxy Demo/VA-Proxy_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>../../../.local/share/Steam/steamapps/common/VA Proxy Demo/VA-Proxy_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>../../../.local/share/Steam/steamapps/common/VA Proxy Demo/VA-Proxy_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>../../../.local/share/Steam/steamapps/common/VA Proxy Demo/VA-Proxy_Data\Managed\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIElementsModule">
+      <HintPath>../../../.local/share/Steam/steamapps/common/VA Proxy Demo/VA-Proxy_Data\Managed\UnityEngine.UIElementsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIElementsNativeModule">
+      <HintPath>../../../.local/share/Steam/steamapps/common/VA Proxy Demo/VA-Proxy_Data\Managed\UnityEngine.UIElementsNativeModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>../../../.local/share/Steam/steamapps/common/VA Proxy Demo/VA-Proxy_Data\Managed\UnityEngine.UIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityCurlModule">
+      <HintPath>../../../.local/share/Steam/steamapps/common/VA Proxy Demo/VA-Proxy_Data\Managed\UnityEngine.UnityCurlModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestAssetBundleModule">
+      <HintPath>../../../.local/share/Steam/steamapps/common/VA Proxy Demo/VA-Proxy_Data\Managed\UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestAudioModule">
+      <HintPath>../../../.local/share/Steam/steamapps/common/VA Proxy Demo/VA-Proxy_Data\Managed\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestModule">
+      <HintPath>../../../.local/share/Steam/steamapps/common/VA Proxy Demo/VA-Proxy_Data\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestTextureModule">
+      <HintPath>../../../.local/share/Steam/steamapps/common/VA Proxy Demo/VA-Proxy_Data\Managed\UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestWWWModule">
+      <HintPath>../../../.local/share/Steam/steamapps/common/VA Proxy Demo/VA-Proxy_Data\Managed\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>../../../.local/share/Steam/steamapps/common/VA Proxy Demo/BepInEx/core/Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="0Harmony">
+        <HintPath>/home/eva/.local/share/Steam/steamapps/common/VA Proxy Demo/BepInEx/core/0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>../../../.local/share/Steam/steamapps/common/VA Proxy Demo/VA-Proxy_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources/*" />
+  </ItemGroup>
+</Project>
