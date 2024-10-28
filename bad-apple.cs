@@ -7,9 +7,11 @@ namespace GivingPyroNightmares;
 
 public class BadApple : MonoBehaviour
 {
-	public int width = 32;
-	public int height = 24;
-	public Vector3 StartPos = new(4727.203f, 10506.96f, 1102.274f);
+	public static int width = 32;
+	public static int height = 24;
+	public static float YDifference = 4.11f;
+	public static float XDifference = 4.788f;
+	public Vector3 StartPos = new(4727.203f, 10506.96f+height*YDifference, 1102.274f);
 	public static GameObject F5;
 	public static GameObject PixelStorage;
 	public static GameObject F5Storage;
@@ -17,8 +19,6 @@ public class BadApple : MonoBehaviour
 		new Vector3(4785.659f, 10514.88f, 993.5815f),
 		new Vector3(37.7827f, 23.2773f, 55.8336f)
 	);
-	public static float YDifference = 4.11f;
-	public static float XDifference = 4.788f;
 	public static int currentFrame = -1;
 	public void Awake() 
 	{
@@ -70,7 +70,7 @@ public class BadApple : MonoBehaviour
 			for (int y = 0; y < height; y++) 
 			{
 				Plugin.Log.LogInfo($"Creating F5 representing pixel at {x} {y}");
-				Vector3 offset = new(XDifference*x, YDifference*y);
+				Vector3 offset = new(XDifference*x, (-YDifference)*y);
 				Vector3 res = StartPos + offset;
 				GameObject clone = GetClonedF5();
 				clone.transform.position = res;

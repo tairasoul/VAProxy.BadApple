@@ -55,7 +55,7 @@ public class Plugin : BaseUnityPlugin
 		};
 		// rows are separated by &
 		string[] rows = frame.Split('&');
-		for (int y = 0; y < rows.Length; y++) 
+		for (int y = rows.Length - 1; y >= 0; y--) 
 		{
 			FrameData data = new()
 			{
