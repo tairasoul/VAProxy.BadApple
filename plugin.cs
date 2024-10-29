@@ -91,7 +91,7 @@ public class Plugin : BaseUnityPlugin
 	
 	public Frame ProcessFrame(string frame, int frameNumber) 
 	{
-		//Log.LogDebug($"Processing frame {frameNumber}");
+		Log.LogDebug($"Processing frame {frameNumber}");
 		Frame frameData = new()
 		{
 			FrameNum = frameNumber,
