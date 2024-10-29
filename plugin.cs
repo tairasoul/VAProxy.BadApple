@@ -24,7 +24,7 @@ public struct Frame
 	public FrameData[] data;
 }
 
-[BepInPlugin("tairasoul.vaproxy.badapple", "bad apple", "1.0.0")]
+[BepInPlugin("tairasoul.vaproxy.badapple", "bad apple", "1.0.1")]
 public class Plugin : BaseUnityPlugin 
 {
 	internal static ManualLogSource Log;
