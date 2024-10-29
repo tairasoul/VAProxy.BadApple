@@ -34,22 +34,28 @@ public class Plugin : BaseUnityPlugin
 	{
 		Log = Logger;
 		string resource = "bad-apple.resources.frames";
+		// get gzipped frames resource in our assembly
 		using Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resource);
 		MemoryStream memStream = new();
 		// frames resource is gzip compressed
 		GZipStream gzip = new(stream, CompressionMode.Decompress);
 		gzip.CopyTo(memStream);
+		// get gzip decompressed bytes
 		byte[] bytes = memStream.ToArray();
+		// get string
 		string rawData = Encoding.UTF8.GetString(bytes);
+		// get the size of frames
 		string size = rawData.Split('-')[0];
 		ProcessSize(size);
 		string frameData = rawData.Split('-')[1];
 		// frames are separated by ;
 		string[] frames = frameData.Split(';');
+		// 32 threads for processing because its 6572 frames
 		int coroutineCount = 32;
 		int framesPerCoroutine = frames.Length / coroutineCount;
 		Task[] tasks = [];
 		
+		// start the threads
 		for (int i = 0; i < coroutineCount; i++)
 		{
 			int startFrame = i * framesPerCoroutine;
@@ -58,6 +64,7 @@ public class Plugin : BaseUnityPlugin
 			tasks = [ .. tasks, task ];
 		}
 		
+		// run the frame finalizer
 		Task.Run(() => FinalizeFrames(frames.Length));
 		
 		SceneManager.activeSceneChanged += SceneChanged;
@@ -80,9 +87,11 @@ public class Plugin : BaseUnityPlugin
 		for (int frame = start; frame < end; frame++) 
 		{
 			Frame frameData = ProcessFrame(frames[frame], frame);
+			// in case the frame data is empty
 			if (frameData.data.Length != 0)
 				processed.Add(frameData);
 		}
+		// lock so all data will be properly added
 		lock(frameData) 
 		{
 			frameData = [ .. frameData, .. processed ];
@@ -123,6 +132,7 @@ public class Plugin : BaseUnityPlugin
 
 	private async void FinalizeFrames(int frames)
 	{
+		// wait for all frames to be processed
 		while (true) 
 		{
 			if (frameData.Length == frames)
@@ -130,6 +140,7 @@ public class Plugin : BaseUnityPlugin
 			await Task.Delay(1);
 		}
 		Log.LogInfo($"Sorting {frames} frames");
+		// sort them by framenum and set frame data to sorted list
 		List<Frame> list = [.. frameData];
 		list.Sort((f1, f2) => f1.FrameNum.CompareTo(f2.FrameNum));
 		frameData = [ .. list];
@@ -138,6 +149,7 @@ public class Plugin : BaseUnityPlugin
 	
 	public void SceneChanged(Scene old, Scene active) 
 	{
+		// if we're in the main game, create the object containing the bad apple host
 		if (active.buildIndex == 2) 
 		{
 			GameObject apple = new("BadApple");
