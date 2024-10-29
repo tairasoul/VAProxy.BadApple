@@ -1,7 +1,10 @@
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using BepInEx;
 using BepInEx.Logging;
 using UnityEngine;
@@ -37,17 +40,58 @@ public class Plugin : BaseUnityPlugin
 		GZipStream gzip = new(stream, CompressionMode.Decompress);
 		gzip.CopyTo(memStream);
 		byte[] bytes = memStream.ToArray();
-		string frameData = Encoding.UTF8.GetString(bytes);
+		string rawData = Encoding.UTF8.GetString(bytes);
+		string size = rawData.Split('-')[0];
+		ProcessSize(size);
+		string frameData = rawData.Split('-')[1];
 		// frames are separated by ;
 		string[] frames = frameData.Split(';');
-		for (int frame = 0; frame < frames.Length; frame++) 
-			ProcessFrame(frames[frame], frame);
+		int coroutineCount = 32;
+		int framesPerCoroutine = frames.Length / coroutineCount;
+		Task[] tasks = [];
+		
+		for (int i = 0; i < coroutineCount; i++)
+		{
+			int startFrame = i * framesPerCoroutine;
+			int endFrame = (i == coroutineCount - 1) ? frames.Length : startFrame + framesPerCoroutine;
+			Task task = Task.Run(() => ProcessFramesCoroutine(frames, startFrame, endFrame));
+			tasks = [ .. tasks, task ];
+		}
+		
+		Task.Run(() => FinalizeFrames(frames.Length));
+		
 		SceneManager.activeSceneChanged += SceneChanged;
 	}
 	
-	public void ProcessFrame(string frame, int frameNumber) 
+	private void ProcessSize(string size) 
 	{
-		Log.LogInfo($"Processing frame {frameNumber}");
+		string[] split = size.Split('x');
+		string x = split[0];
+		string y = split[1];
+		BadApple.width = int.Parse(x);
+		BadApple.height = int.Parse(y);
+		Log.LogInfo($"Image dimensions are {size}.");
+	}
+
+	private async void ProcessFramesCoroutine(string[] frames, int start, int end)
+	{
+		await Task.Delay(1);
+		List<Frame> processed = [];
+		for (int frame = start; frame < end; frame++) 
+		{
+			Frame frameData = ProcessFrame(frames[frame], frame);
+			if (frameData.data.Length != 0)
+				processed.Add(frameData);
+		}
+		lock(frameData) 
+		{
+			frameData = [ .. frameData, .. processed ];
+		}
+	}
+	
+	public Frame ProcessFrame(string frame, int frameNumber) 
+	{
+		//Log.LogDebug($"Processing frame {frameNumber}");
 		Frame frameData = new()
 		{
 			FrameNum = frameNumber,
@@ -74,13 +118,26 @@ public class Plugin : BaseUnityPlugin
 			data.xRow = parsedNums;
 			frameData.data = [ ..frameData.data, data ];
 		}
-		Plugin.frameData = [ .. Plugin.frameData, frameData ];
+		return frameData;
+	}
+
+	private async void FinalizeFrames(int frames)
+	{
+		while (true) 
+		{
+			if (frameData.Length == frames)
+				break;
+			await Task.Delay(1);
+		}
+		Log.LogInfo($"Sorting {frames} frames");
+		List<Frame> list = [.. frameData];
+		list.Sort((f1, f2) => f1.FrameNum.CompareTo(f2.FrameNum));
+		frameData = [ .. list];
+		Log.LogInfo($"Sorted {frames} frames");
 	}
 	
 	public void SceneChanged(Scene old, Scene active) 
 	{
-		Logger.LogInfo(active.buildIndex);
-		BadApple.currentFrame = -1;
 		if (active.buildIndex == 2) 
 		{
 			GameObject apple = new("BadApple");
