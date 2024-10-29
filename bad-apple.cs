@@ -12,7 +12,7 @@ public class BadApple : MonoBehaviour
 	public static int height = 24;
 	public static float YDifference = 4.11f;
 	public static float XDifference = 4.788f;
-	public static Vector3 StartPos = new(4727.203f, 10506.96f+height*YDifference, 1102.274f);
+	public static Vector3 StartPos = new(4733.434f, 10511.81f+height*YDifference, 1221.011f);
 	public static GameObject F5;
 	public static GameObject PixelStorage;
 	public static GameObject F5Storage;
@@ -29,6 +29,7 @@ public class BadApple : MonoBehaviour
 		F5 = GameObject.Find("World").transform.Find("Areas").transform.Find("IronFactory").transform.Find("Lod0").transform.Find("F5").gameObject;
 		PixelStorage = new("PixelStorage");
 		F5Storage = new("F5Storage");
+		StartPos = new(4733.434f, 10511.81f+height*YDifference, 1221.011f);
 		StartCoroutine(StartFrameRendering());
 		StartCoroutine(SetupPixels());
 	}
@@ -44,6 +45,7 @@ public class BadApple : MonoBehaviour
 		clone.GetComponent<Dialoger>().enabled = false;
 		clone.GetComponent<DialogueSystemEvents>().enabled = false;
 		clone.transform.SetParent(F5Storage.transform);
+		clone.SetActive(false);
 		return clone;
 	}
 	
@@ -61,7 +63,8 @@ public class BadApple : MonoBehaviour
 		while (true) 
 		{
 			yield return new WaitForSeconds(0.01667f);
-			if (currentFrame + 1 == Plugin.frameData.Length) 
+			currentFrame++;
+			if (currentFrame == Plugin.frameData.Length) 
 			{
 				GameObject.Destroy(PixelStorage);
 				GameObject.Destroy(F5Storage);
@@ -70,20 +73,17 @@ public class BadApple : MonoBehaviour
 				GameObject.Destroy(gameObject);
 				break;
 			}
-			currentFrame++;
 			Plugin.Log.LogInfo($"Displaying frame {currentFrame}/{Plugin.frameData.Length}");
 		}
 	}
 	
 	private IEnumerator SetupPixels() 
 	{
-		F5.SetActive(false);
 		for (int x = 0; x < width; x++) 
 		{
 			StartCoroutine(SetupX(x));
 		}
-			yield return null;
-		F5.SetActive(true);
+		yield return null;
 	}
 	
 	private IEnumerator SetupX(int x) 
